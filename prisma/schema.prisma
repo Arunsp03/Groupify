@@ -1,0 +1,18 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:arunsql03@localhost:5432/groupify?schema=public"
+}
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Video{
+    id Int @id @default(autoincrement())
+    videoid String
+    title String @db.VarChar(255)
+    likes Int @default(0)
+    dislikes Int @default(0)
+    hasplayed Int @default(0)
+    username String @default("")
+    thumbnail String @default("")
+}
