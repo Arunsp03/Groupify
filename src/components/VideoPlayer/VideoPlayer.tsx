@@ -8,8 +8,11 @@ declare global {
   }
 }
 
-const VideoPlayer = ({ videoId, handleVideoEnded }: any) => {
+const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle }: any) => {
   const playerRef = useRef<any>(null);
+  const handleplayVideo=()=>{
+    playerRef.current.playVideo();
+  }
 
   useEffect(() => {
     console.log("re-render");
@@ -21,10 +24,10 @@ const VideoPlayer = ({ videoId, handleVideoEnded }: any) => {
 
       playerRef.current = new window.YT.Player('player', {
         videoId: videoId,
-        height: '480',
-        width: '853',
+        height: '300',
+        width: '420',
         playerVars: { 
-          autoplay: 1, 
+          autoplay: 0, 
           mute: 1,
         },
         events: {
@@ -36,12 +39,12 @@ const VideoPlayer = ({ videoId, handleVideoEnded }: any) => {
 
     const onPlayerReady = (event: any) => {
       console.log("Player is ready");
-      event.target.playVideo();
+      // event.target.playVideo();
     };
 
     const onPlayerStateChange = (event: any) => {
       if (event.data === window.YT.PlayerState.ENDED) {
-        console.log("Video ended");
+       
         handleVideoEnded();
       }
     };
@@ -68,7 +71,13 @@ const VideoPlayer = ({ videoId, handleVideoEnded }: any) => {
   }, [videoId]); // Re-run effect when videoId changes
 
   return (
+    <div className="flex flex-col ml-5">
+    <h2 className="text-white font-bold text-2xl">Currently Playing</h2>
     <div id="player"></div>
+    <button type="button" className="text-black bg-white rounded-sm mt-4" onClick={handleplayVideo}>Play</button>
+    
+    <h2 className="text-white font-semibold mt-10 w-[420px]">{videoTitle}</h2>
+    </div>
   );
 };
 

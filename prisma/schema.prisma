@@ -8,11 +8,18 @@ generator client {
 
 model Video{
     id Int @id @default(autoincrement())
-    videoid String
+    videoid String @unique
     title String @db.VarChar(255)
     likes Int @default(0)
     dislikes Int @default(0)
     hasplayed Int @default(0)
     username String @default("")
     thumbnail String @default("")
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  username String @db.VarChar(255)
+  role String @db.VarChar(255)
+
 }
