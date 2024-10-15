@@ -1,13 +1,37 @@
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
+import CredentialsProvider from "next-auth/providers/credentials"
 const handler=NextAuth({
     providers: [
         GithubProvider({
-          clientId: "Ov23liqLaLlIqKaj4J6o",
-          clientSecret:"39d862ecf19ed18c976b65bd29758c788ae311da",
+          clientId: process.env.GITHUB_clientId_local??"",
+          clientSecret:process.env.GITHUB_clientSecret??"",
         }),
+        CredentialsProvider({
+          name: 'Credentials',
+          credentials: {
+            username: { label: "Username", type: "text", placeholder: "jsmith" },
+            password: { label: "Password", type: "password" }
+          },
+          async authorize(credentials, req) {
+            const response = await fetch("")
+            if (!response.ok) return null
+            return (await response.json()) ?? null
+          },
+        
+        }),
+    
         
       ],
+      session: {
+
+        strategy: "jwt",
+      
+      
+        
+        }
+      
+      
     
 })
 export { handler as GET, handler as POST }

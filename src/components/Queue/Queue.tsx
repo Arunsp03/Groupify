@@ -187,11 +187,11 @@ const Queue = () => {
             Submit
           </button>
         </div>
-        <div className="mt-5 border-b-2">
+        <div className="mt-5 ">
           {videoQueue &&
             videoQueue.map((item: any, index) => {
               return (
-                <div className="flex flex-col">
+                <div className="flex flex-col border-b-2">
                   <div className="flex flex-row">
                     <img
                       src={item.thumbnail}
