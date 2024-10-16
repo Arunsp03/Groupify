@@ -9,16 +9,15 @@ export default function Queueview() {
   const session=useSession();
   const router=useRouter();
   useEffect(()=>{
-    if(!session.data?.user)
-    {
-      router.replace("/");
-    }
-
+    console.log("session",session.data?.user)
   },[session])
   return (
   <div >
+    
      <Appbar/>
+     { session.data?.user &&
     <Queue/>
+}
     </div>
   );
 }

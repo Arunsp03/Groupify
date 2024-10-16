@@ -72,5 +72,35 @@ export const markVideoCompleted = async (videoid: string) => {
     }
 };
 
+export const validateUser=async(username:string,password:string)=>{
+    try{
+        const user=await prisma.user.findFirst({
+            where:{
+                username:username,
+                password:password
+            }
+        })
+        console.log("user",user);
+        return user;
+    }
+    catch(err)
+    {
+        console.error(err);
+        return null;
+    }
+}
 
-
+export const getStreamerList=async()=>{
+    try{
+        const streamers=await prisma.user.findMany({
+            select:{
+                streamername:true,
+            }
+        })
+        return streamers;
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}
