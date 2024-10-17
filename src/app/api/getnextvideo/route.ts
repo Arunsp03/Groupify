@@ -1,9 +1,10 @@
 import { findNextVideoToPlay } from "@/db/db";
 import { NextResponse } from "next/server";
 
-export async function GET(){
+export async function POST(request:Request){
     try{
-        const video=await findNextVideoToPlay();
+        const body=await request.json();
+        const video=await findNextVideoToPlay(body.streamername);
         return NextResponse.json(video)
     }
     catch(err)

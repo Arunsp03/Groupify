@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { validateUser } from "@/db/db";
-const handler=NextAuth({
+export const handler=NextAuth({
     providers: [
        
         CredentialsProvider({
@@ -20,7 +20,8 @@ const handler=NextAuth({
               id: user.id,
               "username":user.username??"",
               "password":user.password??"",
-              "role":user.role??""
+              "role":user.role??"",
+              "streamername":user.streamername??""
             }   
           },
         
@@ -43,6 +44,7 @@ const handler=NextAuth({
               token.id = user.id;
               token.username = user.username;
               token.role=user.role
+              token.streamername=user.streamername
              
             
             }
@@ -52,7 +54,8 @@ const handler=NextAuth({
           session.user = {
             id: token.id,
             username: token.username,
-            role:token.role
+            role:token.role,
+            streamername:token.streamername
            
            
           };

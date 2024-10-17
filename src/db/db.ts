@@ -12,10 +12,11 @@ catch(err)
     console.error(err);
 }
 }
-export const getVideos=async()=>{
+export const getVideos=async(streamername:string)=>{
     try{
         const videos=await prisma.video.findMany({where:{
-            hasplayed:0
+            hasplayed:0,
+            streamername:streamername
         }})
         return videos;
     }
@@ -42,11 +43,12 @@ export const addLikes=async(id:number)=>{
         console.error(err);
     }
 }
-export const findNextVideoToPlay=async()=>{
+export const findNextVideoToPlay=async(streamername:string)=>{
     try{
         const video=await prisma.video.findFirst({
             where:{
-                hasplayed:0
+                hasplayed:0,
+                streamername:streamername
             },
             orderBy:{
                 likes:'desc'
@@ -61,6 +63,7 @@ export const findNextVideoToPlay=async()=>{
 }
 export const markVideoCompleted = async (videoid: string) => {
     try {
+        console.log("video id marked deleted",videoid)
         await prisma.video.delete({
             where: {
                 videoid: videoid,  // No need for equals; just pass the videoid directly
@@ -95,6 +98,9 @@ export const getStreamerList=async()=>{
         const streamers=await prisma.user.findMany({
             select:{
                 streamername:true,
+            },
+            where:{
+                role:"Streamer"
             }
         })
         return streamers;

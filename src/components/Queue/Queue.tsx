@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { Video } from "@/models/video";
-
+import Apiservice from "@/Api/Apiservice";
+import { statecontext } from "@/provider";
+const {fetchVideos,fetchNextVideo}=Apiservice
 //AIzaSyDSSFhEezYYR7TstNJYGXmPu8LE48lvG-U
 const Queue = () => {
+  const {selectedstreamer}=useContext(statecontext)
   const fetchVideoDetailsByID = async (videoID: string) => {
     try {
       const response = await fetch(
@@ -26,14 +29,7 @@ const Queue = () => {
   const [title, setTitle] = useState("");
   const getVideos = async () => {
     try {
-      const data = await fetch("/api/getvideos", {
-        method: "GET",
-        cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const videos = await data.json();
+      const videos = await fetchVideos(selectedstreamer);
       console.log("videos", videos);
       setvideoQueue(videos);
     } catch (err) {
@@ -77,6 +73,7 @@ const Queue = () => {
         videoid: videoID[1],
         title: data.items[0].snippet.title,
         thumbnail: data.items[0].snippet.thumbnails.default.url,
+        streamername:selectedstreamer
       };
       await addVideo(video);
       await getVideos();
@@ -100,13 +97,13 @@ const Queue = () => {
       await getVideos();
       //Get next video
       console.log("video ended");
-      const data = await fetch("/api/getnextvideo", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const video = await data.json();
+      // const data = await fetch("/api/getnextvideo", {
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+      const video = await fetchNextVideo(selectedstreamer);
       console.log("next video", video);
       console.log("next video id", video.videoid);
       if (video && video.videoid) {
@@ -122,13 +119,13 @@ const Queue = () => {
 
   const getVideoToPlay = async () => {
     try {
-      const data = await fetch("/api/getnextvideo", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const video = await data.json();
+      // const data = await fetch("/api/getnextvideo", {
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+      const video = await fetchNextVideo(selectedstreamer );
       console.log("next video", video);
       console.log("next video id", video.videoid);
       console.log("title", video.title);

@@ -13,7 +13,7 @@ model Video{
     likes Int @default(0)
     dislikes Int @default(0)
     hasplayed Int @default(0)
-    username String @default("")
+    streamername String @default("")
     thumbnail String @default("")
 }
 
@@ -22,6 +22,6 @@ model User{
   username String @db.VarChar(255)
   password String @db.VarChar(255)
   role String @db.VarChar(255) @default("User")
-  streamername String @db.VarChar(255) @default("Arun")
+  streamername String @db.VarChar(255) @default("")
 
 }
