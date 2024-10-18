@@ -5,10 +5,14 @@ import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { Video } from "@/models/video";
 import Apiservice from "@/Api/Apiservice";
 import { statecontext } from "@/provider";
-const {fetchVideos,fetchNextVideo}=Apiservice
+import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+const {fetchVideos,fetchNextVideo,markVideoCompleted}=Apiservice
 //AIzaSyDSSFhEezYYR7TstNJYGXmPu8LE48lvG-U
 const Queue = () => {
-  const {selectedstreamer}=useContext(statecontext)
+  const { streamername } = useParams();
+  const session:any=useSession();
+  const {selectedstreamer,setSelectedStreamer}=useContext(statecontext)
   const fetchVideoDetailsByID = async (videoID: string) => {
     try {
       const response = await fetch(
@@ -73,7 +77,8 @@ const Queue = () => {
         videoid: videoID[1],
         title: data.items[0].snippet.title,
         thumbnail: data.items[0].snippet.thumbnails.default.url,
-        streamername:selectedstreamer
+        streamername:selectedstreamer,
+        isplaying:0
       };
       await addVideo(video);
       await getVideos();
@@ -87,13 +92,14 @@ const Queue = () => {
   const handleVideoEnded = async () => {
     try {
       //Mark current video as completed
-      await fetch("/api/markvideocompleted", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ videoid: nextvideo }),
-      });
+      // await fetch("/api/markvideocompleted", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ videoid: nextvideo }),
+      // });
+      await markVideoCompleted(nextvideo);
       await getVideos();
       //Get next video
       console.log("video ended");
@@ -158,6 +164,8 @@ const Queue = () => {
     const fetchdata = async () => {
       await getVideos();
       await getVideoToPlay();
+      setSelectedStreamer(streamername)
+      console.log(streamername+" "+session.data?.user?.username);
     };
     fetchdata();
   }, []);

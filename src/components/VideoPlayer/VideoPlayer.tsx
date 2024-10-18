@@ -1,6 +1,9 @@
 "use client"
-import { useEffect, useRef } from "react";
 
+import { useEffect, useRef } from "react";
+import Apiservice from "@/Api/Apiservice";
+import { useSession } from "next-auth/react";
+const{markVideoPlaying}=Apiservice
 declare global {
   interface Window {
     onYouTubeIframeAPIReady: () => void;
@@ -9,12 +12,15 @@ declare global {
 }
 
 const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle }: any) => {
+  const session:any=useSession();
   const playerRef = useRef<any>(null);
-  const handleplayVideo=()=>{
+  const handleplayVideo=async()=>{
     playerRef.current.playVideo();
+    await markVideoPlaying(videoId);
   }
 
   useEffect(() => {
+    console.log(session.data?.user)
     console.log("re-render");
 
     const createPlayer = () => {

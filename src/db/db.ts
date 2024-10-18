@@ -110,3 +110,18 @@ export const getStreamerList=async()=>{
         console.error(err);
     }
 }
+export const markVideoPlaying = async (videoid: string) => {
+    try {
+        console.log("video id marked playing",videoid)
+        await prisma.video.update({
+            where: {
+                videoid: videoid, 
+            },
+            data:{
+                isplaying:1
+            }
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};

@@ -58,10 +58,42 @@ const fetchVideoDetailsByID = async (videoID: string) => {
         }
       );
       const data = await response.json();
-      console.log("inservi",data)
+     // console.log("inservi",data)
       return data;
     } catch (err) {
       console.error(err);
     }
   };
-export default {getStreamerList,fetchVideos,fetchNextVideo,fetchVideoDetailsByID}
+  const markVideoCompleted=async(nextvideo:string)=>{
+    try {
+      //Mark current video as completed
+      await fetch("/api/markvideocompleted", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ videoid: nextvideo }),
+      });
+    }
+      catch(err)
+      {
+        console.error(err)
+      }
+  
+}
+const markVideoPlaying=async(videoId:string)=>{
+  try{
+    await fetch("/api/markvideoplaying",{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ videoid: videoId }),
+    })
+  }
+  catch(err)
+  {
+    console.error(err);
+  }
+}
+export default {getStreamerList,fetchVideos,fetchNextVideo,markVideoCompleted,fetchVideoDetailsByID,markVideoPlaying}
