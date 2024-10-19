@@ -125,3 +125,22 @@ export const markVideoPlaying = async (videoid: string) => {
         console.error(err);
     }
 };
+
+export const isVideoPlayingAndReturnVideoId=async(streamername:string)=>{
+    try{
+        const videoId=await prisma.video.findFirst({
+            where:{
+                streamername:streamername,
+                isplaying:1
+            },
+            select:{
+                videoid:true
+            }
+        })
+        return videoId;
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}

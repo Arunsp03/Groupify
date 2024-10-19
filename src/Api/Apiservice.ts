@@ -1,3 +1,5 @@
+import { Video } from "@/models/video";
+
 const getStreamerList=async()=>{
     try{
         const data=await fetch("/api/getStreamerList",{
@@ -96,4 +98,53 @@ const markVideoPlaying=async(videoId:string)=>{
     console.error(err);
   }
 }
-export default {getStreamerList,fetchVideos,fetchNextVideo,markVideoCompleted,fetchVideoDetailsByID,markVideoPlaying}
+const checkIsVideoPlayingAndReturnVideoId=async(streamername:string)=>{
+  try
+  {
+    const data=await fetch("/api/isvideoplaying",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({streamername:streamername})
+    })
+    const video=await data.json();
+    console.log("video playing",video.videoid);
+    return video.videoid;
+  }
+  catch(err)
+  {
+    console.error(err);
+  }
+}
+const submitVideo=async(video:Video)=>{
+  try{
+    const response = await fetch("/api/addvideo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ video }),
+    });
+  }
+  catch(err)
+  {
+    console.error(err);
+  }
+}
+const submitLike=async(id:number)=>{
+  try{
+    await fetch("/api/handlelike", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+  }
+  catch(err)
+  {
+    console.error(err);
+  }
+}
+export default {getStreamerList,fetchVideos,fetchNextVideo,markVideoCompleted,fetchVideoDetailsByID,markVideoPlaying,checkIsVideoPlayingAndReturnVideoId,submitVideo,submitLike}

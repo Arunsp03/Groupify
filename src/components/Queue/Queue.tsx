@@ -7,8 +7,7 @@ import Apiservice from "@/Api/Apiservice";
 import { statecontext } from "@/provider";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-const {fetchVideos,fetchNextVideo,markVideoCompleted}=Apiservice
-//AIzaSyDSSFhEezYYR7TstNJYGXmPu8LE48lvG-U
+const {fetchVideos,fetchNextVideo,markVideoCompleted,submitVideo,submitLike}=Apiservice
 const Queue = () => {
   const { streamername } = useParams();
   const session:any=useSession();
@@ -33,8 +32,8 @@ const Queue = () => {
   const [title, setTitle] = useState("");
   const getVideos = async () => {
     try {
-      const videos = await fetchVideos(selectedstreamer);
-      console.log("videos", videos);
+      const videos = await fetchVideos(streamername.toString());
+    //  console.log("videos", videos);
       setvideoQueue(videos);
     } catch (err) {
       console.error(err);
@@ -49,14 +48,8 @@ const Queue = () => {
   };
   const addVideo = async (video: Video) => {
     try {
-      const response = await fetch("/api/addvideo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ video }),
-      });
-      console.log("response", response);
+     await submitVideo(video);
+    //  console.log("response", response);
     } catch (err) {
       console.error(err);
     }
@@ -66,57 +59,35 @@ const Queue = () => {
       const videoID: any = videolink.match(/[?&]v=([^&]+)/);
       // console.log("video id",videoID)
       const data = await fetchVideoDetailsByID(videoID[1]);
-      // console.log("data",data.items[0].snippet)
-      console.log("video id", videoID[1]);
-      console.log("title of the video", data.items[0].snippet);
-      console.log(
-        "thumbnail link",
-        data.items[0].snippet.thumbnails.medium.url
-      );
       const video = {
         videoid: videoID[1],
         title: data.items[0].snippet.title,
         thumbnail: data.items[0].snippet.thumbnails.default.url,
-        streamername:selectedstreamer,
+        streamername:streamername.toString(),
         isplaying:0
       };
       await addVideo(video);
       await getVideos();
       //setnextVideo(videoID[1])
       //setVideoLink("");
-      console.log("video Queue", nextvideo);
+   //   console.log("video Queue", nextvideo);
     } catch (err) {
       console.error(err);
     }
   };
   const handleVideoEnded = async () => {
     try {
-      //Mark current video as completed
-      // await fetch("/api/markvideocompleted", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ videoid: nextvideo }),
-      // });
       await markVideoCompleted(nextvideo);
       await getVideos();
-      //Get next video
-      console.log("video ended");
-      // const data = await fetch("/api/getnextvideo", {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-      const video = await fetchNextVideo(selectedstreamer);
-      console.log("next video", video);
-      console.log("next video id", video.videoid);
+     // console.log("video ended");
+      const video = await fetchNextVideo(streamername.toString());
+     // console.log("next video", video);
+     // console.log("next video id", video.videoid);
       if (video && video.videoid) {
         setnextVideo(video.videoid);
         setTitle(video.title);
       } else {
-        console.log("no next video found");
+    //    console.log("no next video found");
       }
     } catch (err) {
       console.error(err);
@@ -125,21 +96,15 @@ const Queue = () => {
 
   const getVideoToPlay = async () => {
     try {
-      // const data = await fetch("/api/getnextvideo", {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-      const video = await fetchNextVideo(selectedstreamer );
-      console.log("next video", video);
-      console.log("next video id", video.videoid);
-      console.log("title", video.title);
+      const video = await fetchNextVideo(streamername.toString() );
+      // console.log("next video", video);
+      // console.log("next video id", video.videoid);
+      // console.log("title", video.title);
       if (video && video.videoid) {
         setnextVideo(video.videoid);
         setTitle(video.title);
       } else {
-        console.log("no next video found");
+       // console.log("no next video found");
       }
     } catch (err) {
       console.error(err);
@@ -148,13 +113,7 @@ const Queue = () => {
 
   const handleLikes = async (id: number) => {
     try {
-      await fetch("/api/handlelike", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
+      await submitLike(id);
       await getVideos();
     } catch (err) {
       console.error(err);
@@ -162,13 +121,15 @@ const Queue = () => {
   };
   useEffect(() => {
     const fetchdata = async () => {
+      // console.log("streamername",streamername)
       await getVideos();
       await getVideoToPlay();
       setSelectedStreamer(streamername)
-      console.log(streamername+" "+session.data?.user?.username);
+   //   console.log(streamername+" "+session.data?.user?.username);
     };
+  //  console.log("streamername re-render",streamername)
     fetchdata();
-  }, []);
+  }, [streamername]);
   return (
     <div className="flex flex-row w-[95vw] m-auto mt-[5rem] ">
       <div className="w-[80vw]">
@@ -259,8 +220,10 @@ const Queue = () => {
         {nextvideo && (
           <VideoPlayer
             videoId={nextvideo}
+            setVideoId={setnextVideo}
             videoTitle={title}
             handleVideoEnded={handleVideoEnded}
+            streamername={streamername}
           />
         )}
       </div>
