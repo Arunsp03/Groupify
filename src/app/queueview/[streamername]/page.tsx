@@ -10,7 +10,7 @@ export default function Queueview() {
   const router=useRouter();
   useEffect(()=>{
    // console.log("isauth",session.data.user);
-    if(!session.data.user.isauthenticated)
+    if(!session.data?.user?.isauthenticated)
     {
       router.push("/")
     }

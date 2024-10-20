@@ -7,6 +7,8 @@ import Apiservice from "@/Api/Apiservice";
 import { statecontext } from "@/provider";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { configDotenv } from "dotenv";
+configDotenv();
 const {fetchVideos,fetchNextVideo,markVideoCompleted,submitVideo,submitLike}=Apiservice
 const Queue = () => {
   const { streamername } = useParams();
@@ -15,7 +17,7 @@ const Queue = () => {
   const fetchVideoDetailsByID = async (videoID: string) => {
     try {
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=${videoID}&key=AIzaSyDSSFhEezYYR7TstNJYGXmPu8LE48lvG-U`,
+        `https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=${videoID}&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
         {
           method: "GET",
         }
