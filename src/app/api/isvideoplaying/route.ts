@@ -9,6 +9,6 @@ export const POST =async(request:Request)=>{
     }
     catch(err)
     {
-        return NextResponse.json(err);
+        return NextResponse.error();
     }
 }

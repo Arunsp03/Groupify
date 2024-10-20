@@ -21,7 +21,8 @@ export const handler=NextAuth({
               "username":user.username??"",
               "password":user.password??"",
               "role":user.role??"",
-              "streamername":user.streamername??""
+              "streamername":user.streamername??"",
+              
             }   
           },
         
@@ -45,6 +46,7 @@ export const handler=NextAuth({
               token.username = user.username;
               token.role=user.role
               token.streamername=user.streamername
+              token.isauthenticated=true
              
             
             }
@@ -55,7 +57,8 @@ export const handler=NextAuth({
             id: token.id,
             username: token.username,
             role:token.role,
-            streamername:token.streamername
+            streamername:token.streamername,
+            isauthenticated:true
            
            
           };

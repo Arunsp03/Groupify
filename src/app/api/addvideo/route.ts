@@ -12,6 +12,6 @@ return NextResponse.json({"response":response})
 }
 catch(err)
 {
-    return NextResponse.json(err);
+    return NextResponse.error();
 }
 }  

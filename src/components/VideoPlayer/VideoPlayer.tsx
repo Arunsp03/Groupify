@@ -26,8 +26,8 @@ const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle,setVideoId,streamern
   }
 
   useEffect(() => {
-    console.log("username",session.data?.user?.username);
-    console.log("streamername",streamername);
+   // console.log("username",session.data?.user?.username);
+    //console.log("streamername",streamername);
   
 
     const createPlayer = () => {
@@ -55,7 +55,7 @@ const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle,setVideoId,streamern
     };
 
     const onPlayerReady = (event: any) => {
-      console.log("Player is ready");
+   //   console.log("Player is ready");
       // event.target.playVideo();
       setIsPlayerReady(true);
     };
@@ -84,7 +84,7 @@ const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle,setVideoId,streamern
     if(!(streamername.toString().toLowerCase()==session.data?.user?.username.toLowerCase())){
       setInterval(async () => {
         const videoId=await checkIsVideoPlayingAndReturnVideoId(streamername.toString());
-   console.log("video id",videoId.videoid);
+  // console.log("video id",videoId.videoid);
    if(videoId?.videoid){
    setVideoId(videoId.videoid)
    if (playerRef.current ) {
@@ -95,11 +95,11 @@ const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle,setVideoId,streamern
       }, 10000);
       
       
-      console.log("if")
+   //   console.log("if")
    
     }
     else{
-      console.log("else")
+    //  console.log("else")
     }
     return () => {
       if (playerRef.current) {

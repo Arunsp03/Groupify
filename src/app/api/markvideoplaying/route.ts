@@ -10,6 +10,6 @@ export const POST=async(request:Request)=>{
     catch(err)
     {
         console.error(err);
-        return NextResponse.json(err)
+        return NextResponse.error();
     }
 }

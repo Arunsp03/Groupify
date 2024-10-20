@@ -6,10 +6,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {  useEffect } from 'react';
 export default function Queueview() {
-  const session=useSession();
+  const session:any=useSession();
   const router=useRouter();
   useEffect(()=>{
-    console.log("session",session.data?.user)
+   // console.log("isauth",session.data.user);
+    if(!session.data.user.isauthenticated)
+    {
+      router.push("/")
+    }
   },[session])
   return (
   <div >
@@ -17,7 +21,7 @@ export default function Queueview() {
      <Appbar/>
      { session.data?.user &&
     <Queue/>
-}
+    }
     </div>
   );
 }

@@ -1,6 +1,7 @@
 
 import { Video } from '@/models/video';
 import { PrismaClient } from '@prisma/client'
+import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient()
 export const addVideo=async (video:Video)=>{
 try{
@@ -77,14 +78,25 @@ export const markVideoCompleted = async (videoid: string) => {
 
 export const validateUser=async(username:string,password:string)=>{
     try{
+      
         const user=await prisma.user.findFirst({
             where:{
                 username:username,
-                password:password
+               
             }
         })
+        if(!user)
+        {
+            console.error("user does not exist");
+            return null;
+        }
         console.log("user",user);
+        const storedHash=user.password;
+        const isMatch = await bcrypt.compare(password, storedHash);
+        if(isMatch){
         return user;
+        }
+        return null;
     }
     catch(err)
     {
@@ -138,6 +150,22 @@ export const isVideoPlayingAndReturnVideoId=async(streamername:string)=>{
             }
         })
         return videoId;
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}
+export const registerUser=async(username:string,password:string)=>{
+    try{
+        const user = await prisma.user.create({
+            data:{
+                username:username,
+                password:password,
+                streamername:username
+            }
+        })
+        return user;
     }
     catch(err)
     {

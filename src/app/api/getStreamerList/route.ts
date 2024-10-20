@@ -10,6 +10,6 @@ export const GET=async()=>{
     catch(err)
     {
         console.error(err);
-        return NextResponse.json(err);
+        return NextResponse.error();
     }
 }
