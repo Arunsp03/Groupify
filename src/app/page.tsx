@@ -1,5 +1,6 @@
 "use client"
 import Appbar from '@/components/Appbar/Appbar';
+import Landing from '@/components/Landing/Landing';
 
 import Queue from '@/components/Queue/Queue';
 import ShowStreamers from '@/components/ShowStreamers/ShowStreamers';
@@ -14,8 +15,8 @@ const router=useRouter();
   <div className='text-white'>
    
     <Appbar/>
-    { session.data?.user&&
-   <ShowStreamers/>
+    { session.data?.user ?
+   <ShowStreamers/> :<Landing/>
     }
     </div>
   );
