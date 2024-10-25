@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { validateUser } from "@/db/db";
-export const handler=NextAuth({
+const handler=NextAuth({
     providers: [
        
         CredentialsProvider({
@@ -68,4 +68,4 @@ export const handler=NextAuth({
         }
     
 })
- export{handler as GET ,handler as POST}
+export{handler as GET ,handler as POST}
