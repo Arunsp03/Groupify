@@ -6,7 +6,7 @@ const getStreamerList=async()=>{
             method:"GET"
         })
         const streamers=await data.json();
-        console.log("streamerlist",streamers)
+       // console.log("streamerlist",streamers)
         return streamers;
      
     }
@@ -35,7 +35,7 @@ const fetchVideos=async(selectedstreamer:string)=>{
 }
 const fetchNextVideo=async(streamername:String)=>{
     try{
-        console.log("streamername",streamername)
+      //  console.log("streamername",streamername)
         const data = await fetch("/api/getnextvideo", {
             method: "POST",
             headers: {
@@ -110,7 +110,7 @@ const checkIsVideoPlayingAndReturnVideoId=async(streamername:string)=>{
       body:JSON.stringify({streamername:streamername})
     })
     const video=await data.json();
-    console.log("video playing",video.videoid);
+  //  console.log("video playing",video.videoid);
     return video.videoid;
   }
   catch(err)

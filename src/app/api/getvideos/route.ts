@@ -10,7 +10,7 @@ export async function POST(request:Request)
 
         const session:any=await getServerSession(authOptions);
         const streamername:string|""=session?.user?.streamername;
-        console.log("streamername",streamername)
+   //     console.log("streamername",streamername)
         const body=await request.json();
         const videos=await getVideos(body.streamername);
         return NextResponse.json(videos)
