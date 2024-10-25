@@ -6,6 +6,7 @@ const getStreamerList=async()=>{
             method:"GET"
         })
         const streamers=await data.json();
+        console.log("streamerlist",streamers)
         return streamers;
      
     }
