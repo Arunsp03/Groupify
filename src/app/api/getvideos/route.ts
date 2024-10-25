@@ -1,9 +1,9 @@
 import { getVideos } from "@/db/db";
 import { getSession } from "next-auth/react";
 import { NextResponse } from "next/server";
-import { handler } from "../auth/[...nextauth]/route";
-import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth/next";
+
 export async function POST(request:Request)
 {
     try{
