@@ -13,3 +13,4 @@ export const GET=async()=>{
         return NextResponse.error();
     }
 }
+export const revalidate = 0;

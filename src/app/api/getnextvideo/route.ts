@@ -13,3 +13,4 @@ export async function POST(request:Request){
         return NextResponse.error();
     }
 }
+export const revalidate = 0;
