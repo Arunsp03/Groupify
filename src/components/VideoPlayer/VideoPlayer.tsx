@@ -1,5 +1,5 @@
 "use client"
-
+import "@/styles/commonstyles.css"
 import { useEffect, useRef, useState } from "react";
 import Apiservice from "@/Api/Apiservice";
 const{checkIsVideoPlayingAndReturnVideoId}=Apiservice;
@@ -44,8 +44,12 @@ const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle,setVideoId,streamern
         height: '300',
         width: '420',
         playerVars: { 
+          controls: 0,
           autoplay: 0, 
           mute: 1,
+          disablekb: 1,
+          modestbranding: 1, 
+         
         },
         events: {
           onReady: onPlayerReady,
@@ -118,7 +122,7 @@ const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle,setVideoId,streamern
     <div id="player"></div>
     {streamername.toString().toLowerCase()==session.data?.user?.username.toLowerCase()
     &&
-    <button type="button" className="text-black bg-white rounded-sm mt-4" onClick={handleplayVideo}>Play</button>
+    <button type="button" className="text-black bg-white rounded-sm mt-4 font-semibold" onClick={handleplayVideo}>Play</button>
     }
     <h2 className="text-white font-semibold mt-10 w-[420px]">{videoTitle}</h2>
     </div>

@@ -13,19 +13,25 @@ catch(err)
     console.error(err);
 }
 }
-export const getVideos=async(streamername:string)=>{
-    try{
-        const videos=await prisma.video.findMany({where:{
-            hasplayed:0,
-            streamername:streamername
-        }})
-        return videos;
+    export const getVideos=async(streamername:string)=>{
+        try{
+            const videos=await prisma.video.findMany({where:{
+                hasplayed:0,
+                streamername:streamername
+            },
+        orderBy:{
+            likes:"desc"
+        }
+        },
+            
+        )
+            return videos;
+        }
+        catch(err)
+        {
+            console.error(err);
+        }
     }
-    catch(err)
-    {
-        console.error(err);
-    }
-}
 export const addLikes=async(id:number)=>{
     try{
         await prisma.video.update({
@@ -166,6 +172,37 @@ export const registerUser=async(username:string,password:string)=>{
             }
         })
         return user;
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}
+export const addLikeHistory=async(username:string,videoId:string,streamername:string)=>{
+    try{
+        const response=await prisma.likeHistory.create({
+            data:{
+                username:username,
+                videoid:videoId,
+                streamername:streamername
+            }
+        })
+        return response;
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}
+export const getLikedVideos=async(streamername:string)=>{
+    try{
+        console.log("streamername in server",streamername)
+        const response=await prisma.likeHistory.findMany({
+            where:{
+                streamername:streamername
+            }
+        })
+        return response;
     }
     catch(err)
     {

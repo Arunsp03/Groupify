@@ -9,7 +9,7 @@ import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { configDotenv } from "dotenv";
 configDotenv();
-const {fetchVideos,fetchNextVideo,markVideoCompleted,submitVideo,submitLike}=Apiservice
+const {fetchVideos,fetchNextVideo,markVideoCompleted,submitVideo,submitLike,getLikedVideos}=Apiservice
 const Queue = () => {
   const { streamername } = useParams();
   const session:any=useSession();
@@ -31,11 +31,12 @@ const Queue = () => {
   const [nextvideo, setnextVideo] = useState<any>(null);
   const [videolink, setVideoLink] = useState<any>("");
   const [videoQueue, setvideoQueue] = useState([]);
+  const [likedVideos,setLikedVideos]=useState([]);
   const [title, setTitle] = useState("");
   const getVideos = async () => {
     try {
       const videos = await fetchVideos(streamername.toString());
-    //  console.log("videos", videos);
+     console.log("videos", videos);
       setvideoQueue(videos);
     } catch (err) {
       console.error(err);
@@ -113,19 +114,30 @@ const Queue = () => {
     }
   };
 
-  const handleLikes = async (id: number) => {
+  const handleLikes = async (id: number,videoid:string) => {
     try {
-      await submitLike(id);
+      await submitLike(id,videoid,streamername.toString());
       await getVideos();
     } catch (err) {
       console.error(err);
     }
   };
+  const getAllLikedVideos=async()=>{
+    try{
+      const likedVideos=await getLikedVideos(streamername.toString());
+      setLikedVideos(likedVideos);
+    }
+    catch(err)
+    {
+      console.error(err)
+    }
+  }
   useEffect(() => {
     const fetchdata = async () => {
       // console.log("streamername",streamername)
       await getVideos();
       await getVideoToPlay();
+      await getAllLikedVideos();
       setSelectedStreamer(streamername)
    //   console.log(streamername+" "+session.data?.user?.username);
     };
@@ -156,7 +168,7 @@ const Queue = () => {
           </button>
         </div>
         <div className="mt-5 ">
-          {videoQueue &&
+          {videoQueue && likedVideos && 
             videoQueue.map((item: any, index) => {
               return (
                 <div className="flex flex-col border-b-2">
@@ -201,16 +213,20 @@ const Queue = () => {
                         </svg>{" "}
                       <p className="text-white font-semibold text-sm ml-3">{item.likes}</p>
                         </div>
-
+                        {
                       <button
                         className="text-white w-1 mt-2" 
                         type="button"
                         onClick={() => {
-                          handleLikes(item.id);
+                          handleLikes(item.id,item.videoid
+
+
+                          );
                         }}
                       >
                         Like
                       </button>
+            }
                     </div>
                   </div>
                 </div>
@@ -226,6 +242,7 @@ const Queue = () => {
             videoTitle={title}
             handleVideoEnded={handleVideoEnded}
             streamername={streamername}
+       
           />
         )}
       </div>

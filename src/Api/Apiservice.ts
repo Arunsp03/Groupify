@@ -133,19 +133,38 @@ const submitVideo=async(video:Video)=>{
     console.error(err);
   }
 }
-const submitLike=async(id:number)=>{
+const submitLike=async(id:number,videoid:string,streamername:string)=>{
   try{
     await fetch("/api/handlelike", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ id,videoid,streamername }),
     });
   }
   catch(err)
   {
     console.error(err);
   }
+} 
+ const getLikedVideos=async(streamername:string)=>{
+  try{
+    console.log("streamer name",streamername)
+    const response=await fetch("/api/getlikedvideos",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({streamername:streamername})
+    })
+    const data=await response.json();
+    console.log("liked videos data",data)
+    return data;
+  }
+  catch(err)
+  {
+
+  }
 }
-export default {getStreamerList,fetchVideos,fetchNextVideo,markVideoCompleted,fetchVideoDetailsByID,markVideoPlaying,checkIsVideoPlayingAndReturnVideoId,submitVideo,submitLike}
+export default {getStreamerList,fetchVideos,fetchNextVideo,markVideoCompleted,fetchVideoDetailsByID,markVideoPlaying,checkIsVideoPlayingAndReturnVideoId,submitVideo,submitLike,getLikedVideos}

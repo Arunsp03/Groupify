@@ -1,0 +1,15 @@
+/* Target the YouTube iframe's play button overlay */
+#player iframe {
+    pointer-events: none; /* Disable pointer events on the iframe */
+  }
+  
+  #player iframe::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent; /* Transparent overlay to prevent clicks */
+  }
+  
