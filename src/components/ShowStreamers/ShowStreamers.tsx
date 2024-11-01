@@ -23,7 +23,7 @@ return (
        
         {streamers && streamers.map((item:any,index)=>{
             return(
-                <div key={index} className="bg-blue-500 w-[18vw] h-[20vh]  rounded-sm flex flex-col justify-between ">
+                <div key={index} className="bg-blue-500 w-[18vw] h-[20vh]  rounded-sm flex flex-col justify-between m-[1rem]">
                 <p className="font-semibold text-center m-7 text-xl">{item.streamername}</p>
                 <div>
                 <button className="font-semibold w-full mb-0 p-1 text-center text-white hover:bg-white hover:text-blue-500 " onClick={()=>{

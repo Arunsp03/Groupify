@@ -223,3 +223,18 @@ export const returnQueueLength=async(streamername:string)=>{
         console.error(err);
     }
 }
+
+export const isUserAlreadyExisting=async(username:string)=>{
+    try{
+        const isUserExisting=await prisma.user.count({
+            where:{
+                username:username
+            }
+        })
+        return isUserExisting;
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}

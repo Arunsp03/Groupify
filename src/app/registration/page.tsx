@@ -20,9 +20,15 @@ const Registration=()=>{
                 },
                 body:JSON.stringify({registrationForm})
             }) 
-            if(response.status==200)
+            const data=await response.json();
+            console.log("data",data)
+            if(data.response=="success")
             {
                 router.push("/");
+            }
+            else if(data.response=="user already exists")
+            {
+                alert("user with this username already exists")
             }
             else{
                 console.error("failed auth")

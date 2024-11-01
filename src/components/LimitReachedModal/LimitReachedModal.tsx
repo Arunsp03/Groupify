@@ -2,10 +2,11 @@ import { useEffect } from "react";
 
 const LimitReachedModal = (props: any) => {
   const handleModalClose = () => {
-   // console.log(props.showLimitReached);
     props.setShowLimitReached(false);
   };
-  useEffect(() => {}, [props.showLimitReached]);
+  useEffect(() => {
+    
+  }, [props.showLimitReached]);
   return (
     <>
       {props.showLimitReached && (

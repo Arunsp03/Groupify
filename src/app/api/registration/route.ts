@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import * as bcrypt from 'bcrypt';
-import { registerUser } from "@/db/db";
+import { isUserAlreadyExisting, registerUser } from "@/db/db";
 export const POST=async(request:Request)=>{
 try{
     const {registrationForm}=await request.json();
@@ -13,8 +13,16 @@ try{
     const saltRounds=10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     //console.log("hashed password",hashedPassword);
+    const isUserExisting=await isUserAlreadyExisting(username);
+    if(Number(isUserExisting)>=1)
+    {
+       // console.log("user already exists",isUserExisting);
+        return NextResponse.json({"response":"user already exists"});
+    }
+    else{
     const response=await registerUser(username,hashedPassword);
-    return NextResponse.json({"success":"success"});
+    }
+    return NextResponse.json({"response":"success"});
 }
 catch(err)
 {

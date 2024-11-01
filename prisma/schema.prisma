@@ -21,7 +21,7 @@ model Video{
     streamername String @default("")
     thumbnail String @default("")
     isplaying Int @default(0)
-}
+}   
 
 model User{
   id Int @id @default(autoincrement())

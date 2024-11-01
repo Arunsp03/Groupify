@@ -152,7 +152,7 @@ const submitLike=async(id:number,videoid:string,streamername:string)=>{
 } 
  const getLikedVideos=async(streamername:string)=>{
   try{
-    console.log("streamer name",streamername)
+    //console.log("streamer name",streamername)
     const response=await fetch("/api/getlikedvideos",{
       method:"POST",
       headers:{
@@ -161,7 +161,7 @@ const submitLike=async(id:number,videoid:string,streamername:string)=>{
       body:JSON.stringify({streamername:streamername})
     })
     const data=await response.json();
-    console.log("liked videos data",data)
+  //  console.log("liked videos data",data)
     return data;
   }
   catch(err)
