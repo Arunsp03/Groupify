@@ -127,6 +127,8 @@ const submitVideo=async(video:Video)=>{
       },
       body: JSON.stringify({ video }),
     });
+    const data=await response.json();
+    return data;
   }
   catch(err)
   {

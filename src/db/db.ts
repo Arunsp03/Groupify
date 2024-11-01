@@ -209,3 +209,17 @@ export const getLikedVideos=async(streamername:string)=>{
         console.error(err);
     }
 }
+export const returnQueueLength=async(streamername:string)=>{
+    try{
+        const response=await prisma.video.count({
+            where:{
+                streamername:streamername
+            }
+        })
+        return response;
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}
