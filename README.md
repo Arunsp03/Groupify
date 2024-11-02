@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Collaborative Playlist Streaming Platform
 
-## Getting Started
+This project is a collaborative SaaS platform that allows users to create and listen to a shared playlist of videos from YouTube. It's designed for streamers and contributors to seamlessly interact in building a dynamic playlist.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Collaborative Playlist Creation**: Both streamers and viewers can add videos to the playlist by sharing YouTube URLs, creating an interactive and dynamic queue.
+- **Streamer-Controlled Playback**: Only the streamer has the ability to start and control video playback, ensuring synchronized viewing for all participants.
+- **Long-Polling Communication**: The platform operates using long-polling to maintain real-time interactions between users, providing updates on new additions and current video status.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How It Works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Adding Videos**: Users (both streamers and contributors) add YouTube video links to the playlist queue.
+2. **Starting the Playlist**: The streamer controls playback, beginning video streams for the group.
+3. **Real-Time Updates**: The long-polling mechanism ensures everyone stays in sync with the playlist and current video.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## PS
+**Inspired from Muzer by @hkirat**
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
