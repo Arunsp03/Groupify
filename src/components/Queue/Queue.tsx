@@ -8,7 +8,7 @@ import { statecontext } from "@/provider";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { configDotenv } from "dotenv";
-import LimitReachedModal from "../LimitReachedModal/LimitReachedModal";
+import PopupModal from "../PopupModal/PopupModal";
 configDotenv();
 const {
   fetchVideos,
@@ -159,9 +159,10 @@ const Queue = () => {
   }, [streamername]);
   return (
     <>
-      <LimitReachedModal
-        showLimitReached={showLimitReached}
-        setShowLimitReached={setShowLimitReached}
+      <PopupModal
+        showModal={showLimitReached}
+        setShowModal={setShowLimitReached}
+        message={"Queue Limit Reached"}
       />
 
       <div className="flex flex-row w-[95vw] m-auto mt-[3rem] ">

@@ -1,16 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-const LimitReachedModal = (props: any) => {
+const PopupModal = (props: any) => {
   const handleModalClose = () => {
-    props.setShowLimitReached(false);
+    props.setShowModal(false);
   };
+  const PopupModalRef=useRef(null);
   useEffect(() => {
-    
-  }, [props.showLimitReached]);
+    if(props.showModal){
+    setTimeout(() => {
+      props.setShowModal(false);
+    }, 5000);
+    }
+  }, [props.showModal]);
   return (
     <>
-      {props.showLimitReached && (
-        <div className="bg-blue-500 mt-2 w-[20vw] m-auto p-3 flex flex-row justify-center items-center rounded-sm" >
+      {props.showModal && (
+        <div  ref={PopupModalRef} className="bg-blue-500 mt-2 w-[20vw] m-auto p-3 flex flex-row justify-center items-center rounded-sm" >
           <button onClick={handleModalClose} type="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -33,11 +38,11 @@ const LimitReachedModal = (props: any) => {
             </svg>
           </button>
           <span className="text-white text-center font-bold ml-3">
-            Queue Limit reached
+          {props.message}
           </span>
         </div>
       )}
     </>
   );
 };
-export default LimitReachedModal;
+export default PopupModal;

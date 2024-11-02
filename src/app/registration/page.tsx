@@ -1,16 +1,30 @@
 "use client"
 import Appbar from "@/components/Appbar/Appbar";
-import { signIn } from "next-auth/react";
+import PopupModal from "@/components/PopupModal/PopupModal";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Registration=()=>{
-    const router=useRouter()
+    const session:any=useSession();
+    const router=useRouter();
+    useEffect(()=>{
+        if(session.data?.user?.isauthenticated)
+        {
+          //  console.log("session user is present")
+            router.replace("/");
+        }
+        else{
+           // console.log("else")
+        }
+    },[session])
+
     const [registrationForm,setRegistrationForm]=useState({
         "username":"",
         "password":""
     })
+    const[showRegistrationModal,setShowRegistrationModal]=useState(false);
     const handleFormSubmission=async()=>{
         try{
             const response=await fetch("/api/registration",{
@@ -28,7 +42,7 @@ const Registration=()=>{
             }
             else if(data.response=="user already exists")
             {
-                alert("user with this username already exists")
+                setShowRegistrationModal(true);
             }
             else{
                 console.error("failed auth")
@@ -55,6 +69,14 @@ const Registration=()=>{
     return (
         <div>
             <Appbar/>
+            {showRegistrationModal && 
+              <PopupModal
+              showModal={showRegistrationModal}
+              setShowModal={setShowRegistrationModal}
+              message={"user with this username already exists"}
+              />
+            }
+          
             <form className="m-auto w-[35vw] mt-[5rem] ">
                 <div className="flex flex-col p-[1rem]  justify-center items-center border-white border-[1px]">
                     <h2 className="text-white font-bold text-2xl">Sign Up</h2>

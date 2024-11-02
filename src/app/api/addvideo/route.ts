@@ -6,7 +6,7 @@ try{
 const body = await request.json();
 //console.log("video",body.video)
 const queueLength=await returnQueueLength(body.video.streamername);
-if(Number(queueLength)>50)
+if(Number(queueLength)>5)
 {
  //  console.log("queuelength limit reached");
     return NextResponse.json({"response":"queue limit reached"})
