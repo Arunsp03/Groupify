@@ -14,6 +14,7 @@ This project is a collaborative SaaS platform that allows users to create and li
 2. **Starting the Playlist**: The streamer controls playback, beginning video streams for the group.
 3. **Real-Time Updates**: The long-polling mechanism ensures everyone stays in sync with the playlist and current video.
 
-
+## PS
+**Inspired from Muzer by @hkirat**
 
 
