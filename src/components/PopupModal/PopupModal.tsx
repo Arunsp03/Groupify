@@ -9,13 +9,13 @@ const PopupModal = (props: any) => {
     if(props.showModal){
     setTimeout(() => {
       props.setShowModal(false);
-    }, 5000);
+    }, 3000);
     }
   }, [props.showModal]);
   return (
     <>
       {props.showModal && (
-        <div  ref={PopupModalRef} className="bg-blue-500 mt-2 w-[20vw] m-auto p-3 flex flex-row justify-center items-center rounded-sm" >
+        <div  ref={PopupModalRef} className="bg-blue-500 mt-2 w-[20vw] m-auto p-3 flex flex-row justify-center items-center rounded-sm z-10" >
           <button onClick={handleModalClose} type="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"

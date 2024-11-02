@@ -35,7 +35,7 @@ const Registration=()=>{
                 body:JSON.stringify({registrationForm})
             }) 
             const data=await response.json();
-            console.log("data",data)
+          //  console.log("data",data)
             if(data.response=="success")
             {
                 router.push("/");
