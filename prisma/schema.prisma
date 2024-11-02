@@ -1,12 +1,12 @@
-datasource db {
-  provider = "postgresql"
-  url      = "postgresql://postgres:arunsql03@localhost:5432/groupify?schema=public"
-}
 // datasource db {
 //   provider = "postgresql"
-//   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-// } 
+//   url      = "postgresql://postgres:arunsql03@localhost:5432/groupify?schema=public"
+// }
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+} 
 generator client {
   provider = "prisma-client-js"
 }
