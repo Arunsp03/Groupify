@@ -44,11 +44,10 @@ const VideoPlayer = ({ videoId, handleVideoEnded,videoTitle,setVideoId,streamern
         height: '300',
         width: '420',
         playerVars: { 
-          controls: 0,
+          controls: 1,
           autoplay: 0, 
           mute: 1,
-          disablekb: 1,
-          modestbranding: 1, 
+          
          
         },
         events: {

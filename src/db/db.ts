@@ -70,13 +70,18 @@ export const findNextVideoToPlay=async(streamername:string)=>{
 }
 export const markVideoCompleted = async (videoid: string) => {
     try {
-        console.log("video id marked deleted",videoid)
+      //  console.log("video id marked deleted",videoid)
         await prisma.video.delete({
             where: {
                 videoid: videoid,  // No need for equals; just pass the videoid directly
             },
             
         });
+        await prisma.likeHistory.deleteMany({
+            where:{
+                videoid:videoid
+            }
+        })
     } catch (err) {
         console.error(err);
     }
